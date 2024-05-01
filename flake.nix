@@ -51,7 +51,7 @@
         packageVersion = manifest.workspace.package.version;
 
         package = rustPlatform.buildRustPackage {
-            nativeBuildInputs = buildTools;
+            nativeBuildInputs = buildTools ++ [ pkgs.makeWrapper ];
             buildInputs = libs;
 
             pname = packageName;
@@ -70,6 +70,10 @@
             preConfigure = ''
                 export LD_LIBRARY_PATH="${libraryPath}"
                 export CARGO_TARGET_X86_64_PC_WINDOWS_GNU_RUSTFLAGS="${mingwRustflags}";
+            '';
+
+            postFixup = ''
+                wrapProgram $out/bin/${packageName} --suffix LD_LIBRARY_PATH : ${libraryPath}
             '';
 
             meta = with lib; {
