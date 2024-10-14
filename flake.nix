@@ -2,8 +2,11 @@
     description = "Mint development shell";
 
     inputs = {
-        nixpkgs.url      = "github:nixos/nixpkgs/nixpkgs-unstable";
-        rust-overlay.url = "github:oxalica/rust-overlay";
+        nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
+        rust-overlay = {
+            url = "github:oxalica/rust-overlay";
+            inputs.nixpkgs.follows = "nixpkgs";
+        };
     };
 
     outputs = { nixpkgs, rust-overlay, ... }:
